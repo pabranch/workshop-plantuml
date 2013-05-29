@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Modeling Object Oriented Systems</title>
+
+<script type="text/javascript"
+  src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript"
+  src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="css/reveal.min.css">
+<link rel="stylesheet" href="css/theme/default.css" id="theme">
+<link rel="stylesheet" href="lib/css/zenburn.css">
+<link rel="stylesheet" href="css/jquery-ui-1.10.1.custom.css">
+
+<style>
+.reveal table, .reveal th, .reveal td {
+  border: gray 1px solid;
+  border-collapse: collapse;
+  padding: .2em;
+}
+
+.reveal table th {
+  background-color: #333;
+  color: white;
+  text-shadow:none;
+}
+.reveal-entities .entity {
+  font-weight: bolder;
+}
+
+.reveal img.plantuml {
+  border: 0;
+  padding: 10px;
+  background: white;
+}
+
+.horizontal .reveal pre{
+  float: right;
+  display: inline-block;
+  max-width: 55%;
+  margin: 10px;
+}
+
+.horizontal .reveal img{
+  float: left;
+  display: inline-block;
+  margin: 10px;
+}
+
+.toggle img, .toggle pre{
+  cursor:pointer;
+}
+
+.toggle pre{
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="reveal"><div class="slides">
+<section>
+  <h1>Modeling Object-Oriented Systems</h1>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <img style="padding: 30px; border: 0;" src="images/uml.gif"
+    alt="UML logo" />
+  <blockquote
+    cite="http://javascript.crockford.com/javascript.html"
+    style="margin-top: 40px;">Unified Modeling
+    Language (UML) is a standardized, general-purpose modeling
+    language in the field of software engineering. The Unified
+    Modeling Language includes a set of graphic notation
+    techniques to create visual models of object-oriented
+    software-intensive systems.</blockquote>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <img src="images/FowlerDistilled.jpg"
+    alt="Cover of UML Distilled by Martin Fowler" />
+  <p>At Hostnet we use distilled UML by Martin Fowler as
+    reference</p>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Unified Modeling Language</h2>
+  <ul>
+    <li>used for modeling software systems</li>
+    <li>is a lot more than only diagrams</li>
+    <li>specification is huge &gt; 1000 pages</li>
+    <li>at Hostnet we only use a very small subset</li>
+    <li class="fragment"><em>Sequence Diagram</em></li>
+    <li class="fragment"><em>Class Diagram</em></li>
+  </ul>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Not only UML</h2>
+
+  <ul>
+    <li>Flow charts</li>
+    <li>Physical database models</li>
+  </ul>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Perspectives</h2>
+  <ul>
+    <li><strong>conceptual</strong> sketching, and language
+      independent</li>
+    <li><strong>specification</strong> software level, but
+      only the interfaces, not the implementation</li>
+    <li><strong>implementation</strong> most used, shows the
+      implementation, less emphasis on interfaces</li>
+  </ul>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Example</h2>
+    <blockquote style="cursor:pointer" onclick="javascript:$('body').toggleClass('reveal-entities');">
+      A <span class="entity">company</span> consists of <span
+        class="entity">departments</span>. <span class="entity">Departments</span>
+      are located in one or more <span class="entity">offices</span>.
+      One office acts as a <span class="entity">head
+        quarter</span>. Each <span class="entity">department</span> has
+      a <span class="entity">manager</span> who is recruited
+      from the set of <span class="entity">employees</span>.
+    </blockquote>
+</section>
+<!---------------------------------------------------------------------------------------------------------------------
+                                                 CLASS DIAGRAM
+---------------------------------------------------------------------------------------------------------------------->
+<section class="stack">
+<section>
+  <h1>Class Diagram</h1>
+  <h2>~ structure ~</h2>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Entities</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  class Company
+  class Department
+  class Office
+  class Manager
+  class Employee
+  class Headquarter
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+<h2>Associations</h2>
+  <pre><code class="no-highlight plantuml-example ">  Company -- Department
+  Company -- Headquarter
+  Department -- Office
+  Department -- Manager
+  Department -- Employee    
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Roles</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Company -- Department: has &gt;
+  Company -- Headquarter: has &gt;
+  Department -- Office: has &gt;
+  Department -- Manager: manages &lt;
+  Department -- Employee: works at &lt;
+</code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Multiplicities</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Company "1" - "1..*" Department
+  Company "1" -- "1" Headquarter
+  Department "1" -- "1..*" Office
+  Department "1" -- "1" Manager
+  Department "1..*" - "*" Employee  
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Navigability</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Class Company
+  Company -&gt; Department
+  Company --&gt; Headquarter
+  Department --&gt; Office
+  Department --&gt; Manager
+  Department &lt;--&gt; Employee
+</code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Generalization</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Company - Department
+  Company --  Headquarter
+  Department -- Office
+  Department --  Manager
+  Department -  Employee
+  Headquarter -|&gt; Office 
+  Manager --|&gt; Employee
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Realization</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Office ..|&gt; ILocation
+  interface ILocation
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+
+<section>
+  <h2>Composition</h2>
+  <p> A <code>Department</code> can not exist without a <code>Company</code>
+  <pre><code class="no-highlight plantuml-example ">
+  Company *-- "1..*" Department
+  note on link: Multiplicity of 1 on the composition side is implied
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Aggregation</h2>
+  <p> An <code>Employee</code> can exist without a <code>Department</code>
+  <pre><code class="no-highlight plantuml-example ">
+  Department o-- "*" Employee
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+<h2>Association Class</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Department "1" -- "1" Manager
+  (Department,Manager) .. Employment
+  Employment: $period: DatePeriod
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Temporal keyword</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  Department "1" -- "1 &laquo;temporal&raquo;" Manager
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Fields &amp; Methods</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  class Company {
+    - $department: Department
+    # $headquarter: Department
+    + getDepartments(): Department[1..*]
+    + \\getOffices(): Office[1..*]
+  }
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section class="toggle">
+  <h2>Put together</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  class Company {
+    - $department: Department
+    # protected $headquarter: Department
+    + getDepartments(): Department[1..*]
+    + \\getOffices(): Office[1..*]
+  }
+  
+  Employee &lt;|- Manager
+  Company *-&gt; "1..*" Department: has &gt;
+  Company "1" --&gt; "1" Headquarter: has &gt;
+  Department "1" -&gt; "1..*" Office: has &gt;
+  Department "1" --&gt; "1" Manager: managed by &gt;
+  Department "1..*" o--&gt; "*" Employee
+  Headquarter --|&gt; Department 
+    
+  (Department,Employee) . Employment
+  Employment: $period: DatePeriod
+  </code></pre>
+  <a href="#/9/2">Compare to phycical database model</a>
+</section>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------- 
+                                             SQUENCE DIAGRAM
+--------------------------------------------------------------------------------------------------------------------->
+<section class="stack">
+<section>
+  <h1>Sequence Diagram</h1>
+  <h2>~ interaction ~</h2>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section data-state="horizontal">
+  <h2>Synchronous Messages</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  scale 1.2
+  participant ":Company" as c
+  participant ":Department" as d
+  [-&gt; c : getOffices()
+  activate c
+    c -&gt; c: getDepartments()
+    activate c
+    deactivate c
+    loop $departments
+      c -&gt; d: getOffice()
+      activate d
+      c &lt;&lt;-- d
+      deactivate d
+    end
+  [&lt;&lt;-- c
+  deactivate c
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section data-state="horizontal">
+  <h2>Asynchronous Messages</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  actor "$stefan:Manager" as m
+  participant "$hidde:Employee" as e
+  activate m
+  alt $stefan-&gt;isBirthday()
+    m -&gt;&gt; e: eatCake($a_lie)
+    activate e
+    m -&gt; m: doNothing()
+    activate m
+    deactivate m
+    m &lt;&lt;-- e: $nomnom
+    deactivate e
+  else
+    m -&gt; m: doNothing()
+    activate m
+    deactivate m    
+  end
+  deactivate m
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section data-state="horizontal">
+  <h2>Object Creation</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  participant ":Employee" as e
+  participant ":ReviewRequest" as r
+  participant ":Diff" as d
+  activate e
+  create r
+  e -&gt; r ++ : new
+  e -&gt; r: addDiff($diff)
+    create d
+    r -&gt; d ++: new
+    r &lt;&lt;-- d --
+  e &lt;&lt;-- r --
+  e -&gt; r ++: ship()
+    r -&gt; d: destroy
+    r &lt;&lt;-- d
+    destroy d
+  e &lt;&lt;-- r
+  destroy r
+</code></pre>
+</section>
+</section>
+
+<!---------------------------------------------------------------------------------------------------------------------
+                                                   FLOW CHARTS
+---------------------------------------------------------------------------------------------------------------------->
+<section class="stack">
+<section>
+  <h1>Flow Charts</h1>
+  <h2>~ explain a process ~</h2>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section>
+  <h2>Nodes</h2>
+  <p>Flowcharts have start, decision, activity and end nodes, which are connected through edges.
+  <table>
+    <tr>
+      <th>Node</th><th>Represented by</th><th>Incoming edges</th><th>Outgoing edges</th>
+    </tr>
+    <tr> 
+      <td>Start terminal</td><td>Rounded box</td><td>0</td><td>1</td>
+    </tr>
+    <tr>
+      <td>Decision</td><td>Diamond</td><td>1..*</td><td>2..*</td>
+    </tr>
+    <tr>
+      <td>Activity</td><td>Box</td><td>1..*</td><td>1</td>
+    </tr>
+    <tr>
+      <td>End terminal</td><td>Rounded box</td><td>1..*</td><td>0</td>
+    </tr>
+  </table>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section class="toggle">
+  <h2>Process</h2>
+  <pre><code class="dot plantuml-example">
+  digraph how_to_get_snack {
+    subgraph points {
+      node [shape=box, style=rounded, 
+            fixedsize=true, width=.45, height=.30]
+      Start, End
+    }
+    subgraph decisions {
+      node [shape=diamond]
+      money [label="Have money?"]
+    }
+    
+    subgraph activities {
+      node [shape=box]
+      leave[label="Start walking"]
+      eat[label="Eat snack"]
+      atm[label="Get money at ATM"]
+    }
+    Start -&gt; leave -&gt; money
+    money -&gt; atm[label="No"]
+    money -&gt; eat[label="Yes"]
+    atm -&gt; eat -&gt; End
+  }
+  </code></pre>
+</section>
+</section>
+<!---------------------------------------------------------------------------------------------------------------------
+                                             PHYSICAL DATABASE MODEL
+---------------------------------------------------------------------------------------------------------------------->
+<section class="stack">
+<section>
+  <h1>Physical Database Model</h1>
+  <h2>~ how to store in MySQL ~</h2>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section class="toggle">
+  <h2>Table Definition</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  !define table(name) Class name &lt;&lt; (T, DodgerBlue) &gt;&gt;
+  table(table_name) {
+    primary_key_column_one: type[length] = "default value" {flags}
+    primary_key_column_two: type[length] = "default value" {flags}
+    __
+    foreign_table_name_id: int
+    ..
+    another_foreign_key_id: int
+    ..
+    combined_foreign_key_one_id: int
+    combined_foreign_key_two_id: int
+    __
+    just_a_column: varchar[100] = "Hi" {NOT NULL}
+    __
+    UNIQUE column_two, column_x
+    UNIQUE column_y
+    FULLTEXT column_three
+    INDEX column_four
+  }
+  
+  scale 2
+  
+  skinparam class {
+    BackgroundColor Lavender  
+    ArrowColor Black
+    BorderColor DimGrey
+  }
+  </code></pre>
+</section>
+<!-------------------------------------------------------------------------------------------------------------------->
+<section class="toggle">
+  <h2>Dependencies</h2>
+  <pre><code class="no-highlight plantuml-example ">
+  !define table(name) Class name &lt;&lt; (T, DodgerBlue) &gt;&gt;
+  company -- department
+  department -- manager
+  department -- office
+  department - employee_department_link
+  employee_department_link - employee 
+  employee -- manager
+  table(company) {
+    id
+    __
+    __
+    name: varchar[100]
+  }
+  
+  table(department){
+    id
+    __
+    company_id: int {NOT NULL}
+    manager_id: int {NOT NULL}
+    __
+    name: varchar[100]
+  }
+  
+  table(manager) {
+    id
+    __
+    employee_id: int {NOT NULL}
+    __
+    licence_plate: varchar[10]
+    __
+    UNIQUE employee_id
+  }
+  
+  table(office) {
+    id
+    __
+    department_id: int {NOT NULL}
+    __
+    name: varchar[100]
+    headquarter: tinyint[1] = 0
+  }
+  
+  table(employee) {
+    id
+    __
+    __
+    name: varchar[100] {NOT NULL}
+    birthday: date {NOT NULL}
+  }
+  
+  table(employee_department_link) {
+    __
+    employee_id
+    department_id
+    __
+    start_date: DATE {NOT NULL}
+    end_date: DATE = NULL
+  }
+  
+  skinparam class {
+    BackgroundColor Lavender  
+    ArrowColor Black
+    BorderColor DimGrey
+  }
+</code></pre>
+<a href="#/7/12">Compare to class diagram</a>
+</section>
+</section>
+<!---------------------------------------------------------------------------------------------------------------------
+                                             PHYSICAL DATABASE MODEL
+---------------------------------------------------------------------------------------------------------------------->
+<section>
+<h1>Workshop Time</h1>
+<h2>a.k.a. D.I.Y.</h2>
+</section>
+</div></div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script type="text/javascript" src="js/rawdeflate.js"></script>
+<script type="text/javascript" src="js/jquery_plantuml.js"></script>
+
+<script>
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+      controls : true,
+      progress : true,
+      history : true,
+      center : true,
+
+      theme : Reveal.getQueryHash().theme || 'serif', // available themes are in /css/theme
+      transition : Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+      margin : 0,
+      minScale : 1,
+      maxScale : 100,
+
+      // Optional libraries used to extend on reveal.js
+      dependencies : [
+          {
+            src : 'lib/js/classList.js',
+            condition : function(){
+              return !document.body.classList;
+            }
+          }, {
+            src : 'plugin/markdown/showdown.js',
+            condition : function(){
+              return !!document.querySelector('[data-markdown]');
+            }
+          }, {
+            src : 'plugin/markdown/markdown.js',
+            condition : function(){
+              return !!document.querySelector('[data-markdown]');
+            }
+          }, {
+            src : 'plugin/highlight/highlight.js',
+            async : true,
+            callback : function(){
+              hljs.initHighlightingOnLoad();
+            }
+          }, {
+            src : 'plugin/zoom-js/zoom.js',
+            async : true,
+            condition : function(){
+              return !!document.body.classList;
+            }
+          }, {
+            src : 'plugin/notes/notes.js',
+            async : true,
+            condition : function(){
+              return !!document.body.classList;
+            }
+          }
+      // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+    });
+
+    $(".toggle").click(function () {
+      $("section.toggle.present pre").toggle();
+      $("section.toggle.present img").toggle();
+    });
+    
+    $("pre code").html(function() {
+      return $(this).html().replace(/^\s*([\n\r]{1}|$)/gm, '');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>PlantUML Workshop</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/workshop/css/style.css">
+<script type="text/javascript"
+  src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/rawdeflate.js"></script>
+<script type="text/javascript" src="js/plantuml.js"></script>
+</head>
+<body>
+<div id="plantuml-img"></div>
+<textarea id="plantuml-src">
+a --> b
+</textarea>
+<button onClick="javascript:plantuml_update()">Go</button>
+
+<script>
+$('#plantuml-src').keydown(function (e) {
+  if (e.ctrlKey && e.keyCode == 13) {
+    plantuml_update();
+  }
+});
+</script>
+</body>
+</html>

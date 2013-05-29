@@ -1,0 +1,41 @@
+widget  <|-- textWidget
+widget <|-- imageWidget
+jsWindow "1" *- "many" widget: contains >
+windowManager "1" *- "many" jsWindow : manages >
+
+class jsWindow {
++ void close()
++ void show()
++ void hide()
++ void setContent(string)
++ void setTitle(string)
++ string getWindowId()
++ string getTitle()
++ string getContents()
+}
+note bottom of jsWindow
+  Can't be named window
+  since thats a standard object in the browser
+end note
+
+class windowManager {
+- windows
+- active_window
++ jsWindow spawn(title, content)
++ jsWindow getActiveWindow(void)
++ jsWindow[] getInactiveWindows(void)
++ void close(jsWindow)
+}
+
+class widget {
++ render()
+}
+
+class textWidget {
+- text
++ render()
+}
+class imageWidget {
+- url
++ render()
+}
